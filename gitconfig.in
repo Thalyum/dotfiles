@@ -1,0 +1,24 @@
+[user]
+	name = @@USER@@
+	email = @@EMAIL@@
+
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = auto
+[core]
+	excludesfile = @@HOME@@/.gitignore
+	editor = vim
+	filemode = true
+[alias]
+	ci 	= commit
+	co 	= checkout
+	st 	= status
+	lgv     = log --pretty=fuller
+	lgvp    = log --pretty=fuller -p
+	br 	= branch
+[merge]
+	tool = meld
+[core]
+	editor = vim
