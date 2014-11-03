@@ -19,6 +19,7 @@ call vundle#begin()
 
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'bling/vim-airline'
+Plugin 'brookhong/cscope.vim'
 Plugin 'dagwieers/asciidoc-vim'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'godlygeek/tabular'
