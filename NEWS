@@ -1,3 +1,7 @@
+# Changes in 0.1.1
+
+* GNU/Emacs: show menu bar when running X11.
+
 # Changes in 0.1.0
 
 * default configuration for GNU/Emacs, Vim, ZSH
