@@ -1,7 +1,7 @@
 ;;; init --- setup GNU Emacs
 ;;; Commentary:
 ;;; Code:
-(add-to-list 'load-path "~/.emacs.d/")
+(add-to-list 'load-path "~/.emacs.d/lisp")
 
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
