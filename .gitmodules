@@ -1,6 +1,3 @@
-[submodule "cask"]
-	path = cask
-	url = https://github.com/cask/cask.git
 [submodule "vim/bundle/Vundle.vim"]
 	path = vim/bundle/Vundle.vim
 	url = https://github.com/gmarik/Vundle.vim.git
@@ -10,3 +7,6 @@
 [submodule "vendor/oh-my-zsh"]
 	path = vendor/oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh.git
+[submodule "vendor/cask"]
+	path = vendor/cask
+	url = https://github.com/cask/cask.git
