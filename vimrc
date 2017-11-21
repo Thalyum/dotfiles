@@ -36,6 +36,7 @@ Plugin 'majutsushi/tagbar'
 Plugin 'mileszs/ack.vim'
 Plugin 'peterhoeg/vim-qml'
 Plugin 'racer-rust/vim-racer'
+Plugin 'rhysd/vim-clang-format'
 Plugin 'Rename'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
@@ -263,3 +264,6 @@ endfunction
 
 command! -nargs=0 InsertCppHeaderGuard call InsertCppHeaderGuard()
 command! -nargs=1 InsertCxxNamespace call InsertCxxNamespace('<args>')
+
+" clang-format
+let g:clang_format#detect_style_file = 1
