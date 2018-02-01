@@ -11,6 +11,8 @@
 	excludesfile = @@HOME@@/.gitignore
 	editor = vim
 	filemode = true
+	autocrlf = input
+	attributesFile = @@HOME@@/.gitattributes
 [alias]
 	ci 	= commit
 	co 	= checkout
@@ -20,5 +22,28 @@
 	br 	= branch
 [merge]
 	tool = meld
-[core]
-	editor = vim
+[url "g601671-git-femto:"]
+	insteadOf = git://git.femto.urd1.local/
+[sendemail]
+	smtpServer = webmail-int.sagemcom.com
+	smtpUser = @@USERNAME@@
+	smtpAuth = LOGIN
+	smtpEncryption = tls
+	smtpServerPort = 587
+	suppresscc = self
+	from = @@USER@@ <@@EMAIL@@>
+	chainreplyto = false
+[push]
+	default = simple
+[diff]
+	submodule = log
+
+[diff "bin"]
+	textconv = hexdump -v -C
+
+[credential]
+        helper = store
+[http "https://forge-urd2.rmm.sagem"]
+        sslVerify = false
+[http "https://forge-urd2.vzy.sagem"]
+        sslVerify = false

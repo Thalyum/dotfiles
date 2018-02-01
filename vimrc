@@ -20,13 +20,23 @@ call vundle#begin()
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'bling/vim-airline'
 Plugin 'brookhong/cscope.vim'
+Plugin 'calincru/qml.vim'
+Plugin 'crusoexia/vim-monokai'
 Plugin 'dagwieers/asciidoc-vim'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'dracula/vim'
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'fatih/vim-go'
 Plugin 'godlygeek/tabular'
 Plugin 'gmarik/Vundle.vim'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'mileszs/ack.vim'
+Plugin 'peterhoeg/vim-qml'
+Plugin 'racer-rust/vim-racer'
+Plugin 'rhysd/vim-clang-format'
 Plugin 'Rename'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
@@ -39,6 +49,8 @@ Plugin 'tpope/vim-obsession'
 Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-surround'
 Plugin 'tkztmk/vim-vala'
+Plugin 'vim-scripts/qmake--syntax.vim'
+Plugin 'wting/rust.vim'
 
 call vundle#end()
 
@@ -77,6 +89,9 @@ let b:syntastic_c_cflags = '-I/usr/include/glib-2.0 -I/usr/include/gtk-3.0'
 " \ "\<Plug>(neosnippet_expand_or_jump)"
 " \: "\<TAB>"
 
+" Jedi
+let g:jedi#show_call_signatures = "0"
+
 " Tagbar
 let g:tagbar_compact = 1
 
@@ -101,16 +116,16 @@ set listchars=tab:»\ ,
 nnoremap <silent> <F8> :set list! <CR>
 
 " Keyboard Shortcuts
-let mapleader = ','
+let mapleader = ';'
 nmap <leader>b :CtrlPBuffer<CR>
 nmap <leader>e :NERDTreeToggle<CR>
+nmap <leader>f :CtrlP<CR>
 nmap <leader>/ :NERDTreeFind<CR>
 nmap <leader>t :TagbarToggle<CR>
-nmap <leader>f :TagbarOpenAutoClose<CR>
+nmap <leader>j :TagbarOpenAutoClose<CR>
 noremap <silent><leader>? :map <leader><CR>
 
-map <Space> <PageDown>
-map - <PageUp>
+inoremap jj <Esc>
 
 " File syntax highligthing and indentation
 syntax enable
@@ -122,8 +137,11 @@ au BufRead,BufNewFile *.h set ft=c
 set formatoptions=tcqlron
 set cinoptions=:0,l1,t0,g0,(0
 " C++
-au FileType cpp set ai cindent ts=4 sw=4 sts=4 et
+au FileType cpp set ai cindent ts=4 sw=4 sts=4 et omnifunc=omni#cpp#complete#Main
 au BufRead,BufNewFile *.hpp set ft=cpp
+" Objective-C
+au FileType objc set ai cindent ts=4 sw=4 sts=4
+au BufRead,BufNewFile *.m set ft=objc
 " Python
 au FileType python set ts=4 sw=4 sts=4 et ai
 " Perl
@@ -132,6 +150,9 @@ au FileType perl set ts=4 sw=4 sts=4 et ai
 au FileType shell set ts=4 sw=4 sts=4 et ai
 " Ruby
 au FileType ruby set ts=2 sw=2 sts=2 et ai
+au BufRead,BufNewFile *.ru setfiletype ruby
+" Bitbake
+au BufRead,BufNewFile *.b{b,class} let is_bash=1|setfiletype sh
 " Vala
 au FileType vala set ts=4 sw=4 sts=4 et ai
 " Javascript
@@ -148,9 +169,14 @@ au FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
 au BufRead,BufNewFile *.pro set filetype=qmake
 au BufRead,BufNewFile *.pri set filetype=qmake
 au FileType qmake set ts=4 sw=4 sts=4 et ai
+" Markdown
+au BufRead,BufNewFile *.md set filetype=markdown
+" Mutt
+au BufRead /tmp/mutt-* set tw=72
+" Rust
+let g:rustfmt_autosave = 1
 
-" Tags
-" Build tags of your own project with Ctrl-F12
+" build tags of your own project with Ctrl-F12
 map <C-F12> :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
 
 " Reload Vim settings after editing config file
@@ -191,10 +217,14 @@ highlight ColorColumn ctermbg=magenta
 call matchadd('ColorColumn', '\%79v', 100)
 
 " Remove whitespaces
-autocmd BufWritePre * :%s/\s\+$//e
+" autocmd BufWritePre * :%s/\s\+$//e
 
 " Enable word completion using dictionary
 set dictionary+=/usr/share/dict/words
+
+" Commands
+map <leader>sl :!svn log -l1 % <CR>
+map <leader>gl :!git log -1 % <CR>
 
 " Functions
 
@@ -234,3 +264,6 @@ endfunction
 
 command! -nargs=0 InsertCppHeaderGuard call InsertCppHeaderGuard()
 command! -nargs=1 InsertCxxNamespace call InsertCxxNamespace('<args>')
+
+" clang-format
+let g:clang_format#detect_style_file = 1
