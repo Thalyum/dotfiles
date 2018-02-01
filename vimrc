@@ -217,7 +217,7 @@ highlight ColorColumn ctermbg=magenta
 call matchadd('ColorColumn', '\%79v', 100)
 
 " Remove whitespaces
-autocmd BufWritePre * :%s/\s\+$//e
+" autocmd BufWritePre * :%s/\s\+$//e
 
 " Enable word completion using dictionary
 set dictionary+=/usr/share/dict/words
