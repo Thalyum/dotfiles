@@ -1,3 +1,9 @@
+# Changes in 0.2.0
+
+* FZF: new submodule
+* VIM: add some plugins
+* GNU/Emacs: add Spacemacs configuration
+
 # Changes in 0.1.1
 
 * GNU/Emacs: show menu bar when running X11.
