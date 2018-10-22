@@ -27,10 +27,12 @@ values."
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path '("~/.dotfiles/spacemacs.d/private/")
+   ;; dotspacemacs-configuration-layer-path '("~/.dotfiles/spacemacs.d/private/")
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     haskell
+     markdown
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -44,7 +46,6 @@ values."
           c-c++-enable-clang-support t)
      csharp
      csv
-     d
      (git :variables
           git-gutter-use-fringe t)
      dash
@@ -55,10 +56,8 @@ values."
      helm
      html
      javascript
-     kconfig
      latex
      markdown
-     org
      pandoc
      python
      ruby
@@ -146,7 +145,8 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
+   dotspacemacs-themes '(cobalt
+                         spacemacs-dark
                          solarized-dark
                          solarized-light
                          leuven
@@ -155,11 +155,11 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
-                               :weight normal
-                               :width normal
-                               :powerline-scale 1.1)
+   ;; dotspacemacs-default-font '("Source Code Pro"
+   ;;                             :size 13
+   ;;                             :weight normal
+   ;;                             :width normal
+   ;;                             :powerline-scale 1.1)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -323,6 +323,8 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+  (add-to-list 'custom-theme-load-path
+               (file-name-as-directory "~/Modèles/replace-colorthemes"))
   )
 
 (defun dotspacemacs/user-config ()
@@ -354,11 +356,23 @@ you should place your code here."
   (setq x-select-enable-clipboard t)
   (setq python-shell-interpreter "python3")
   (global-auto-revert-mode -1)
+  (add-hook 'LaTeX-mode-hook (lambda ()
+                               (push
+                                '("latexmk" "latexmk -pdf %s" TeX-run-TeX nil t
+                                  :help "Run latexmk on file")
+                                TeX-command-list)))
+  (setq TeX-source-correlate-mode t)
+  (setq TeX-source-correlate-start-server t)
+  (setq TeX-source-correlate-method 'synctex)
+  (cond
+   ((string-equal system-type "gnu/linux")
+    (progn (setq TeX-view-program-selection '((output-pdf "Okular"))))))
+  (setq TeX-view-program-list
+        '(("Okular" "okular --unique %o#src:%n`pwd`/./%b")))
   (jdoe/config-c-c++)
   (jdoe/config-makefile)
   (jdoe/config-js)
   (jdoe/config-autotools)
-  (jdoe/config-org)
   (jdoe/config-asciidoc)
 )
 
@@ -409,35 +423,43 @@ you should place your code here."
   (add-to-list 'interpreter-mode-alist
                '("node" . javascript-mode)))
 
-(defun jdoe/config-org ()
-  (setq org-directory "~/Notes/")
-  (setq org-default-notes-file (concat org-directory "notes.org"))
-  (setq org-src-fontify-natively t)
-  (setq org-src-preserve-indentation t))
+;; (defun jdoe/config-org ()
+;;   (setq org-directory "~/Notes/")
+;;   (setq org-default-notes-file (concat org-directory "notes.org"))
+;;   (setq org-src-fontify-natively t)
+;;   (setq org-src-preserve-indentation t))
 
 (defun jdoe/config-asciidoc ()
   (add-to-list 'magic-mode-alist
                '("// -\\*- mode:doc; -\\*-" . adoc-mode)))
 
-(defadvice org-mode-flyspell-verify
-  (after my-org-mode-flyspell-verify activate)
-  "Don't spell check src blocks."
-  (setq ad-return-value
-        (and ad-return-value
-             (not (org-in-src-block-p))
-             (not (member 'org-block-begin-line (text-properties-at (point))))
-             (not (member 'org-block-end-line (text-properties-at (point)))))))
+;; (defadvice org-mode-flyspell-verify
+;;   (after my-org-mode-flyspell-verify activate)
+;;   "Don't spell check src blocks."
+;;   (setq ad-return-value
+;;         (and ad-return-value
+;;              (not (org-in-src-block-p))
+;;              (not (member 'org-block-begin-line (text-properties-at (point))))
+;;              (not (member 'org-block-end-line (text-properties-at (point)))))))
 
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("11e5e95bd3964c7eda94d141e85ad08776fbdac15c99094f14a0531f31a156da" "6cf0e8d082a890e94e4423fc9e222beefdbacee6210602524b7c84d207a5dfb5" "5eb4b22e97ddb2db9ecce7d983fa45eb8367447f151c7e1b033af27820f43760" default)))
+ '(evil-want-Y-yank-to-eol nil)
+ '(package-selected-packages
+   (quote
+    (treepy graphql color-theme-modern parent-mode flx anzu bind-map popup f projectile iedit spinner goto-chg pkg-info helm helm-core powerline org-plus-contrib hydra bind-key packed avy smartparens highlight evil epl async s dash auctex-latexmk intero flycheck-haskell company-ghci company-ghc ghc hlint-refactor hindent helm-hoogle haskell-snippets haskell-mode company-cabal cmm-mode zeal-at-point yapfify yaml-mode xterm-color x86-lookup web-mode web-beautify unfill toml-mode thrift tagedit systemd stan-mode smeargle slim-mode shell-pop scss-mode scad-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake racer qml-mode pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements pandoc-mode ox-pandoc ht orgit omnisharp shut-up nasm-mode mwim multi-term mmm-mode minitest matlab-mode markdown-toc markdown-mode magit-gitflow livid-mode skewer-mode simple-httpd live-py-mode less-css-mode julia-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc hy-mode helm-pydoc helm-gtags helm-gitignore helm-dash helm-css-scss helm-company helm-c-yasnippet haml-mode graphviz-dot-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md ggtags fuzzy flycheck-rust seq flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub let-alist with-editor eshell-z eshell-prompt-extras esh-help emmet-mode editorconfig disaster diff-hl cython-mode csv-mode csharp-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-jedi jedi-core python-environment epc ctable concurrent deferred company-c-headers company-auctex company-anaconda company coffee-mode cmake-mode clang-format chruby cargo rust-mode bundler inf-ruby auto-yasnippet yasnippet auctex arduino-mode anaconda-mode pythonic adoc-mode markup-faces ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-)
+ '(font-lock-keyword-face ((t (:foreground "deep pink"))))
+ '(font-lock-preprocessor-face ((t (:foreground "green3"))))
+ '(font-lock-string-face ((t (:foreground "light goldenrod"))))
+ '(font-lock-type-face ((t (:foreground "dark turquoise")))))
