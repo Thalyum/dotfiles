@@ -429,7 +429,9 @@ you should place your code here."
   (setq org-directory "~/Documents/Sagemcom/")
   (setq org-default-notes-file (concat org-directory "notes.org"))
   (setq org-src-fontify-natively t)
-  (setq org-src-preserve-indentation t))
+  (setq org-src-preserve-indentation t)
+  (setq org-todo-keyword-faces
+      '(("FAILED" . "red"))))
 
 (defun jdoe/config-asciidoc ()
   (add-to-list 'magic-mode-alist
