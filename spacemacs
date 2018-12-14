@@ -430,7 +430,9 @@ you should place your code here."
   (setq org-src-fontify-natively t)
   (setq org-src-preserve-indentation t)
   (setq org-todo-keyword-faces
-      '(("FAILED" . "red"))))
+        '(("FAILED" . "red")
+          ("CANCELED" . "grey")
+          ("PAUSED" . "grey"))))
 
 (defun jdoe/config-asciidoc ()
   (add-to-list 'magic-mode-alist
