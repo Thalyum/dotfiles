@@ -11,12 +11,7 @@ fpath=($HOME/.local/share/zsh/site-functions/ $fpath)
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="robbyrussell"
-
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-alias emacs-nox='TERM="xterm" emacs -nw'
+ZSH_THEME="af-magic"
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -56,7 +51,11 @@ plugins=(alias gem git grep mercurial pip repo taskwarrior tmuxinator)
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+alias emacs-nox='TERM="xterm" emacs -nw'
+alias ec='emacsclient -n'
 
 export PATH=$HOME/.local/bin:$HOME/local/bin:/usr/local/bin:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -70,6 +69,8 @@ export PATH=$HOME/.local/bin:$HOME/local/bin:/usr/local/bin:$PATH
 EDITOR=`which vim`
 
 # Configure terminal
+export PATH=$HOME/.local/bin:$HOME/local/bin:/usr/local/bin:/sbin:$PATH
+export DEBEMAIL=paul-erwan.rio@sagemcom.com
 export TERM=xterm-256color
 [ -n "$TMUX" ] && export TERM=screen-256color
 
@@ -80,3 +81,5 @@ export TERM=xterm-256color
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
 zstyle ":completion:*:descriptions" format "%B%d%b"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
