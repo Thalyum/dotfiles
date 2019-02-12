@@ -1,0 +1,7 @@
+scriptencoding utf-8
+set encoding=utf-8
+syntax enable
+filetype plugin indent on
+
+let g:background_type = "dark"
+execute "set background=" . g:background_type
