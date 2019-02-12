@@ -2,7 +2,7 @@
 ZSH=$HOME/.oh-my-zsh
 
 # Path to your oh-my-zsh external configuration.
-ZSH_CUSTOM=$HOME/.oh-my-zsh-custom
+ZSH_CUSTOM=$HOME/.dotfiles/.oh-my-zsh-custom
 
 # Add local function path
 fpath=($HOME/.local/share/zsh/site-functions/ $fpath)
@@ -11,7 +11,7 @@ fpath=($HOME/.local/share/zsh/site-functions/ $fpath)
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="af-magic"
+ZSH_THEME="spaceship"
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -50,12 +50,14 @@ DISABLE_CORRECTION="true"
 plugins=(alias gem git grep mercurial pip repo taskwarrior tmuxinator)
 
 source $ZSH/oh-my-zsh.sh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias emacs-nox='TERM="xterm" emacs -nw'
 alias ec='emacsclient -n'
+alias vi='vim'
 
 export PATH=$HOME/.local/bin:$HOME/local/bin:/usr/local/bin:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -67,6 +69,7 @@ export PATH=$HOME/.local/bin:$HOME/local/bin:/usr/local/bin:$PATH
 #   export EDITOR='mvim'
 # fi
 EDITOR=`which vim`
+spaceship_vi_mode_enable
 
 # Configure terminal
 export PATH=$HOME/.local/bin:$HOME/local/bin:/usr/local/bin:/sbin:$PATH
@@ -82,4 +85,3 @@ export TERM=xterm-256color
 
 zstyle ":completion:*:descriptions" format "%B%d%b"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
