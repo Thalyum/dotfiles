@@ -50,7 +50,6 @@ DISABLE_CORRECTION="true"
 plugins=(alias gem git grep mercurial pip repo taskwarrior tmuxinator)
 
 source $ZSH/oh-my-zsh.sh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -69,13 +68,14 @@ export PATH=$HOME/.local/bin:$HOME/local/bin:/usr/local/bin:$PATH
 #   export EDITOR='mvim'
 # fi
 EDITOR=`which vim`
-spaceship_vi_mode_enable
 
 # Configure terminal
 export PATH=$HOME/.local/bin:$HOME/local/bin:/usr/local/bin:/sbin:$PATH
 export DEBEMAIL=paul-erwan.rio@sagemcom.com
 export TERM=xterm-256color
 [ -n "$TMUX" ] && export TERM=screen-256color
+export SPACESHIP_DIR_TRUNC=0
+export SPACESHIP_EXIT_CODE_SHOW=true
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -85,3 +85,4 @@ export TERM=xterm-256color
 
 zstyle ":completion:*:descriptions" format "%B%d%b"
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
