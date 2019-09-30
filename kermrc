@@ -2,5 +2,7 @@ set line \%1
 set carrier-watch off
 set speed 115200
 set flow xon/xoff
+set session-log binary
+log session \%2
 robust
 connect
