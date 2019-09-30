@@ -54,9 +54,11 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+eval $(thefuck --alias)
 alias emacs-nox='TERM="xterm" emacs -nw'
 alias ec='emacsclient -n'
 alias vi='vim'
+alias mu='kinit G603289; neomutt'
 
 export PATH=$HOME/.local/bin:$HOME/local/bin:/usr/local/bin:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -71,6 +73,7 @@ EDITOR=`which vim`
 
 # Configure terminal
 export PATH=$HOME/.local/bin:$HOME/local/bin:/usr/local/bin:/sbin:$PATH
+export DEBFULLNAME="Paul-Erwan RIO"
 export DEBEMAIL=paul-erwan.rio@sagemcom.com
 export TERM=xterm-256color
 [ -n "$TMUX" ] && export TERM=screen-256color
