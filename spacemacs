@@ -66,15 +66,16 @@ values."
      shell
      syntax-checking
      systemd
+     themes-megapack
      version-control
-     yaml
      vimscript
+     yaml
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(editorconfig company-jedi dts-mode)
+   dotspacemacs-additional-packages '(editorconfig company-jedi dts-mode kaolin-themes)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -147,11 +148,7 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(cobalt
-                         spacemacs-dark
-                         solarized-dark
-                         solarized-light
-                         leuven
-                         zenburn)
+                         spacemacs-dark)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
@@ -335,6 +332,7 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  (load-theme 'kaolin-ocean)
   (setq backup-directory-alist '(("" . "~/.emacs.d/backups")))
   (setq-default ispell-program-name "aspell")
   (setq ispell-dictionary "en_US")
@@ -345,7 +343,7 @@ you should place your code here."
         '(empty line-tails tabs tab-mark trailing))
   (dolist (hook '(prog-mode-hook text-mode-hook))
     (add-hook hook (lambda ()
-                     (setq show-trailing-whitespace t))))
+                     (setq show-trailing-whitespace nil))))
   (dolist (hook '(text-mode-hook rst-mode-hook))
     (add-hook hook 'turn-on-auto-fill))
   (setq flycheck-check-syntax-automatically '(mode-enabled save))
@@ -370,6 +368,8 @@ you should place your code here."
     (progn (setq TeX-view-program-selection '((output-pdf "Okular"))))))
   (setq TeX-view-program-list
         '(("Okular" "okular --unique %o#src:%n`pwd`/./%b")))
+  (define-key evil-normal-state-map (kbd "<kp-add>") 'evil-numbers/inc-at-pt)
+  (define-key evil-normal-state-map (kbd "<kp-subtract>") 'evil-numbers/dec-at-pt)
   (jdoe/config-c-c++)
   (jdoe/config-makefile)
   (jdoe/config-js)
@@ -426,12 +426,13 @@ you should place your code here."
                '("node" . javascript-mode)))
 
 (defun jdoe/config-org ()
-  (setq org-directory "~/Documents/Sagemcom/")
+  (setq org-directory "~/Notes/")
   (setq org-default-notes-file (concat org-directory "notes.org"))
   (setq org-src-fontify-natively t)
   (setq org-src-preserve-indentation t)
   (setq org-todo-keyword-faces
         '(("FAILED" . "red")
+          ("BLOCKED" . "red")
           ("CANCELED" . "grey")
           ("PAUSED" . "grey"))))
 
@@ -453,20 +454,81 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default bold shadow italic underline bold bold-italic bold])
+ '(ansi-color-names-vector
+   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
+ '(beacon-color "#d33682")
+ '(company-quickhelp-color-background "#4F4F4F")
+ '(company-quickhelp-color-foreground "#DCDCCC")
+ '(compilation-message-face (quote default))
+ '(cursor-type (quote bar))
  '(custom-safe-themes
    (quote
-    ("11e5e95bd3964c7eda94d141e85ad08776fbdac15c99094f14a0531f31a156da" "6cf0e8d082a890e94e4423fc9e222beefdbacee6210602524b7c84d207a5dfb5" "5eb4b22e97ddb2db9ecce7d983fa45eb8367447f151c7e1b033af27820f43760" default)))
+    ("34dc2267328600f3065630e161a8ae59939700684c232073cdd5afbf78456670" "a9d67f7c030b3fa6e58e4580438759942185951e9438dd45f2c668c8d7ab2caf" "bee55ba5e878d0584db9b2fb33f75c348a3008fcfe8e05ab8cae897ca604fd95" "886fe9a7e4f5194f1c9b1438955a9776ff849f9e2f2bbb4fa7ed8879cdca0631" "0f1733ad53138ddd381267b4033bcb07f5e75cd7f22089c7e650f1bb28fc67f4" "fa477d10f10aa808a2d8165a4f7e6cee1ab7f902b6853fbee911a9e27cf346bc" "030346c2470ddfdaca479610c56a9c2aa3e93d5de3a9696f335fd46417d8d3e4" "ef07cb337554ffebfccff8052827c4a9d55dc2d0bc7f08804470451385d41c5c" "51043b04c31d7a62ae10466da95a37725638310a38c471cc2e9772891146ee52" "ff829b1ac22bbb7cee5274391bc5c9b3ddb478e0ca0b94d97e23e8ae1a3f0c3e" "7d4340a89c1f576d1b5dec57635ab93cdc006524bda486b66d01a6f70cffb08e" "11e0bc5e71825b88527e973b80a84483a2cfa1568592230a32aedac2a32426c1" "c48551a5fb7b9fc019bf3f61ebf14cf7c9cdca79bcb2a4219195371c02268f11" "c82d24bfba431e8104219bfd8e90d47f1ad6b80a504a7900cbee002a8f04392f" "8d805143f2c71cfad5207155234089729bb742a1cb67b7f60357fdd952044315" "d71f6c718dab453b625c407adc50479867a557668d5c21599a1ebea204d9e4f3" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "c93889826aa14d6bf4ff491780d0888d217e67e04209da823720ee50435e3bb1" "039eb505cec29b4521ce5ecf5abf523492005f0c65d0640f62e53e2d3068b393" "7f9dc0c7bc8e5b4a1b9904359ee449cac91fd89dde6aca7a45e4ed2e4985664c" "25da85b0d62fd69b825e931e27079ceeb9fd041d14676337ea1ce1919ce4ab17" "2f4f50d98073c01038b518066840638455657dc91dd1a225286d573926f36914" "47ec21abaa6642fefec1b7ace282221574c2dd7ef7715c099af5629926eb4fd7" "725a0ac226fc6a7372074c8924c18394448bb011916c05a87518ad4563738668" "1436d643b98844555d56c59c74004eb158dc85fc55d2e7205f8d9b8c860e177f" "72a81c54c97b9e5efcc3ea214382615649ebb539cb4f2fe3a46cd12af72c7607" "9b35c097a5025d5da1c97dba45fed027e4fb92faecbd2f89c2a79d2d80975181" "2540689fd0bc5d74c4682764ff6c94057ba8061a98be5dd21116bf7bf301acfb" "2593436c53c59d650c8e3b5337a45f0e1542b1ba46ce8956861316e860b145a0" "6bc387a588201caf31151205e4e468f382ecc0b888bac98b2b525006f7cb3307" "cdd26fa6a8c6706c9009db659d2dffd7f4b0350f9cc94e5df657fa295fffec71" "3860a842e0bf585df9e5785e06d600a86e8b605e5cc0b74320dfe667bcbe816c" "152c9642180cb0907bfe7c343ed07d0586c0d84fd8e7279d90566088989a13bb" "d9aa334b2011d57c8ce279e076d6884c951e82ebc347adbe8b7ac03c4b2f3d72" "bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" "11e57648ab04915568e558b77541d0e94e69d09c9c54c06075938b6abc0189d8" "d74fe1508cff43708fa2f97c4bf58d19f0e002b2e0c92bf958bf483113b7d89d" "3fa65d60abd566321f93d1354f91dedae8ab795bb688a421c69e2e0f7fa3c9bc" "ec7f7d98ab2b33d9a3531521453b3b6fab9895fc4ed321a8328fe1ad03f4bd03" "8a97050c9dd0af1cd8c3290b061f4b6032ccf2044ddc4d3c2c39e516239b2463" "11e5e95bd3964c7eda94d141e85ad08776fbdac15c99094f14a0531f31a156da" "6cf0e8d082a890e94e4423fc9e222beefdbacee6210602524b7c84d207a5dfb5" "5eb4b22e97ddb2db9ecce7d983fa45eb8367447f151c7e1b033af27820f43760" default)))
  '(evil-want-Y-yank-to-eol nil)
+ '(fci-rule-color "#3C3D37" t)
+ '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
+ '(frame-background-mode (quote dark))
+ '(frame-brackground-mode (quote dark))
+ '(highlight-changes-colors (quote ("#FD5FF0" "#AE81FF")))
+ '(highlight-tail-colors
+   (quote
+    (("#3C3D37" . 0)
+     ("#679A01" . 20)
+     ("#4BBEAE" . 30)
+     ("#1DB4D0" . 50)
+     ("#9A8F21" . 60)
+     ("#A75B00" . 70)
+     ("#F309DF" . 85)
+     ("#3C3D37" . 100))))
+ '(linum-format " %3i ")
+ '(magit-diff-use-overlays nil)
+ '(nrepl-message-colors
+   (quote
+    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (vimrc-mode dactyl-mode dts-mode phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download htmlize gnuplot treepy graphql color-theme-modern parent-mode flx anzu bind-map popup f projectile iedit spinner goto-chg pkg-info helm helm-core powerline org-plus-contrib hydra bind-key packed avy smartparens highlight evil epl async s dash auctex-latexmk intero flycheck-haskell company-ghci company-ghc ghc hlint-refactor hindent helm-hoogle haskell-snippets haskell-mode company-cabal cmm-mode zeal-at-point yapfify yaml-mode xterm-color x86-lookup web-mode web-beautify unfill toml-mode thrift tagedit systemd stan-mode smeargle slim-mode shell-pop scss-mode scad-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake racer qml-mode pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements pandoc-mode ox-pandoc ht orgit omnisharp shut-up nasm-mode mwim multi-term mmm-mode minitest matlab-mode markdown-toc markdown-mode magit-gitflow livid-mode skewer-mode simple-httpd live-py-mode less-css-mode julia-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc hy-mode helm-pydoc helm-gtags helm-gitignore helm-dash helm-css-scss helm-company helm-c-yasnippet haml-mode graphviz-dot-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md ggtags fuzzy flycheck-rust seq flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub let-alist with-editor eshell-z eshell-prompt-extras esh-help emmet-mode editorconfig disaster diff-hl cython-mode csv-mode csharp-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-jedi jedi-core python-environment epc ctable concurrent deferred company-c-headers company-auctex company-anaconda company coffee-mode cmake-mode clang-format chruby cargo rust-mode bundler inf-ruby auto-yasnippet yasnippet auctex arduino-mode anaconda-mode pythonic adoc-mode markup-faces ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
+    (treemacs irony kaolin-ocean-theme kaolin-aurora-theme kaolin-themes lv dash-docs transient zenburn-theme zen-and-art-theme white-sand-theme underwater-theme ujelly-theme twilight-theme twilight-bright-theme twilight-anti-bright-theme toxi-theme tao-theme tangotango-theme tango-plus-theme tango-2-theme sunny-day-theme sublime-themes subatomic256-theme subatomic-theme spacegray-theme soothe-theme solarized-theme soft-stone-theme soft-morning-theme soft-charcoal-theme smyx-theme seti-theme reverse-theme rebecca-theme railscasts-theme purple-haze-theme professional-theme planet-theme phoenix-dark-pink-theme phoenix-dark-mono-theme organic-green-theme omtose-phellack-theme oldlace-theme occidental-theme obsidian-theme noctilux-theme naquadah-theme mustang-theme monokai-theme monochrome-theme molokai-theme moe-theme minimal-theme material-theme majapahit-theme madhat2r-theme lush-theme light-soap-theme jbeans-theme jazz-theme ir-black-theme inkpot-theme heroku-theme hemisu-theme hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme gotham-theme gandalf-theme flatui-theme flatland-theme farmhouse-theme exotica-theme espresso-theme dracula-theme django-theme darktooth-theme autothemer darkokai-theme darkmine-theme darkburn-theme dakrone-theme cyberpunk-theme color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized clues-theme cherry-blossom-theme busybee-theme bubbleberry-theme birds-of-paradise-plus-theme badwolf-theme apropospriate-theme anti-zenburn-theme ample-zen-theme ample-theme alect-themes afternoon-theme vimrc-mode dactyl-mode dts-mode phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download htmlize gnuplot treepy graphql color-theme-modern parent-mode flx anzu bind-map popup f projectile iedit spinner goto-chg pkg-info helm helm-core powerline org-plus-contrib hydra bind-key packed avy smartparens highlight evil epl async s dash auctex-latexmk intero flycheck-haskell company-ghci company-ghc ghc hlint-refactor hindent helm-hoogle haskell-snippets haskell-mode company-cabal cmm-mode zeal-at-point yapfify yaml-mode xterm-color x86-lookup web-mode web-beautify unfill toml-mode thrift tagedit systemd stan-mode smeargle slim-mode shell-pop scss-mode scad-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake racer qml-mode pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements pandoc-mode ox-pandoc ht orgit omnisharp shut-up nasm-mode mwim multi-term mmm-mode minitest matlab-mode markdown-toc markdown-mode magit-gitflow livid-mode skewer-mode simple-httpd live-py-mode less-css-mode julia-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc hy-mode helm-pydoc helm-gtags helm-gitignore helm-dash helm-css-scss helm-company helm-c-yasnippet haml-mode graphviz-dot-mode gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md ggtags fuzzy flycheck-rust seq flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit ghub let-alist with-editor eshell-z eshell-prompt-extras esh-help emmet-mode editorconfig disaster diff-hl cython-mode csv-mode csharp-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-jedi jedi-core python-environment epc ctable concurrent deferred company-c-headers company-auctex company-anaconda company coffee-mode cmake-mode clang-format chruby cargo rust-mode bundler inf-ruby auto-yasnippet yasnippet auctex arduino-mode anaconda-mode pythonic adoc-mode markup-faces ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+ '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
+ '(pos-tip-background-color "#FFFACE")
+ '(pos-tip-foreground-color "#272822")
+ '(vc-annotate-background nil)
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#F92672")
+     (40 . "#CF4F1F")
+     (60 . "#C26C0F")
+     (80 . "#E6DB74")
+     (100 . "#AB8C00")
+     (120 . "#A18F00")
+     (140 . "#989200")
+     (160 . "#8E9500")
+     (180 . "#A6E22E")
+     (200 . "#729A1E")
+     (220 . "#609C3C")
+     (240 . "#4E9D5B")
+     (260 . "#3C9F79")
+     (280 . "#A1EFE4")
+     (300 . "#299BA6")
+     (320 . "#2896B5")
+     (340 . "#2790C3")
+     (360 . "#66D9EF"))))
+ '(vc-annotate-very-old-color nil)
+ '(weechat-color-list
+   (quote
+    (unspecified "#272822" "#3C3D37" "#F70057" "#F92672" "#86C30D" "#A6E22E" "#BEB244" "#E6DB74" "#40CAE4" "#66D9EF" "#FB35EA" "#FD5FF0" "#74DBCD" "#A1EFE4" "#F8F8F2" "#F8F8F0")))
+ '(when
+      (or
+       (not
+        (boundp
+         (quote ansi-term-color-vector)))
+       (not
+        (facep
+         (aref ansi-term-color-vector 0))))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(font-lock-keyword-face ((t (:foreground "deep pink"))))
- '(font-lock-preprocessor-face ((t (:foreground "green3"))))
- '(font-lock-string-face ((t (:foreground "light goldenrod"))))
- '(font-lock-type-face ((t (:foreground "dark turquoise"))))
- '(font-lock-variable-name-face ((t (:foreground "pale goldenrod")))))
+ )
