@@ -28,7 +28,7 @@ values."
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   ;; dotspacemacs-configuration-layer-path '("~/.dotfiles/spacemacs.d/private/")
+   dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
@@ -55,6 +55,7 @@ values."
      haskell
      helm
      html
+     imenu-list
      javascript
      latex
      markdown
@@ -76,11 +77,11 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(editorconfig company-jedi dts-mode kaolin-themes)
+   dotspacemacs-additional-packages '()
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(p4)
+   dotspacemacs-excluded-packages '(evil-escape)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -148,17 +149,17 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(cobalt
-                         spacemacs-dark)
+   dotspacemacs-themes '(spacemacs-dark
+                         spacemacs-light)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   ;; dotspacemacs-default-font '("Source Code Pro"
-   ;;                             :size 13
-   ;;                             :weight normal
-   ;;                             :width normal
-   ;;                             :powerline-scale 1.1)
+   dotspacemacs-default-font '("Source Code Pro"
+                               :size 13
+                               :weight normal
+                               :width normal
+                               :powerline-scale 1.1)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -322,8 +323,6 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
-  (add-to-list 'custom-theme-load-path
-               (file-name-as-directory "~/Modèles/replace-colorthemes"))
   )
 
 (defun dotspacemacs/user-config ()
@@ -333,7 +332,6 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (load-theme 'kaolin-ocean)
   (setq backup-directory-alist '(("" . "~/.emacs.d/backups")))
   (setq-default ispell-program-name "aspell")
   (setq ispell-dictionary "en_US")
@@ -356,6 +354,24 @@ you should place your code here."
   (setq x-select-enable-clipboard t)
   (setq python-shell-interpreter "python3")
   (global-auto-revert-mode -1)
+  (jdoe/config-c-c++)
+  (jdoe/config-makefile)
+  (jdoe/config-js)
+  (jdoe/config-autotools)
+  (jdoe/config-org)
+  (jdoe/config-asciidoc)
+  (per/config-imenu)
+  (per/config-latex)
+  (per/config-kbd-shortcuts)
+)
+
+(defun per/config-kbd-shortcuts()
+  (evil-leader/set-key "x y" 'copy-to-clipboard)
+  (evil-leader/set-key "x p" 'paste-from-clipboard)
+  (evil-leader/set-key "g l h" 'git-link-homepage)
+  (evil-leader/set-key "g b" 'magit-blame))
+
+(defun per/config-latex ()
   (add-hook 'LaTeX-mode-hook (lambda ()
                                (push
                                 '("latexmk" "latexmk -pdf %s" TeX-run-TeX nil t
@@ -368,16 +384,13 @@ you should place your code here."
    ((string-equal system-type "gnu/linux")
     (progn (setq TeX-view-program-selection '((output-pdf "Okular"))))))
   (setq TeX-view-program-list
-        '(("Okular" "okular --unique %o#src:%n`pwd`/./%b")))
-  (define-key evil-normal-state-map (kbd "<kp-add>") 'evil-numbers/inc-at-pt)
-  (define-key evil-normal-state-map (kbd "<kp-subtract>") 'evil-numbers/dec-at-pt)
-  (jdoe/config-c-c++)
-  (jdoe/config-makefile)
-  (jdoe/config-js)
-  (jdoe/config-autotools)
-  (jdoe/config-org)
-  (jdoe/config-asciidoc)
-)
+        '(("Okular" "okular --unique %o#src:%n`pwd`/./%b"))))
+
+(defun per/config-imenu ()
+  (imenu-list-minor-mode)
+  (setq imenu-list-auto-resize t)
+  (evil-leader/set-key "\"" 'imenu-list-smart-toggle)
+  )
 
 (defun jdoe/config-c-c++ ()
   (add-hook 'c-mode-common-hook '(lambda()
@@ -435,12 +448,41 @@ you should place your code here."
         '(("FAILED" . "red")
           ("BLOCKED" . "red")
           ("CANCELED" . "grey")
-          ("PAUSED" . "grey"))))
+          ("PAUSED" . "grey")))
+  (when (version<= "9.2" (org-version))
+    (require 'org-tempo)))
 
 (defun jdoe/config-asciidoc ()
   (add-to-list 'magic-mode-alist
                '("// -\\*- mode:doc; -\\*-" . adoc-mode)))
 
+(defun copy-to-clipboard ()
+  "Copies selection to x-clipboard."
+  (interactive)
+  (if (display-graphic-p)
+      (progn
+        (message "Yanked region to x-clipboard!")
+        (call-interactively 'clipboard-kill-ring-save)
+        )
+    (if (region-active-p)
+        (progn
+          (shell-command-on-region (region-beginning) (region-end) "xsel     -i -b")
+          (message "Yanked region to clipboard!")
+          (deactivate-mark))
+      (message "No region active; can't yank to clipboard!")))
+  )
+
+(defun paste-from-clipboard ()
+  "Pastes from x-clipboard."
+  (interactive)
+  (if (display-graphic-p)
+      (progn
+        (clipboard-yank)
+        (message "graphics active")
+        )
+    (insert (shell-command-to-string "xsel -o -b"))
+    )
+  )
 ;; (defadvice org-mode-flyspell-verify
 ;;   (after my-org-mode-flyspell-verify activate)
 ;;   "Don't spell check src blocks."
@@ -455,12 +497,16 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "a2cde79e4cc8dc9a03e7d9a42fabf8928720d420034b66aecc5b665bbf05d4e9" default)))
+ '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (paradox goto-chg ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline smartparens restart-emacs request rainbow-delimiters popwin persp-mode pcre2el org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-unimpaired evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-escape eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map auto-highlight-symbol auto-compile aggressive-indent ace-window ace-link ace-jump-helm-line))))
+    (imenu-list dts-mode ox-pandoc ht orgit org-projectile org-category-capture org-present solarized-theme pyenv-mode minitest hy-mode helm-gtags helm-c-yasnippet gruvbox-theme git-gutter-fringe flycheck-pos-tip evil-magit company-anaconda dash-functional magit git-commit with-editor flycheck yapfify yaml-mode xterm-color tao-theme tango-plus-theme smeargle ruby-test-mode pytest organic-green-theme org-mime org-download multi-term monokai-theme live-py-mode julia-mode jazz-theme inkpot-theme gotham-theme gnuplot git-messenger git-link git-gutter dracula-theme diff-hl color-theme-sanityinc-tomorrow auctex transient dash-docs haskell-mode company yasnippet csharp-mode log4e rust-mode inf-ruby js2-mode org-plus-contrib web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode markdown-toc mmm-mode markdown-mode gh-md ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async evil-unimpaired f s dash))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:background nil)))))
