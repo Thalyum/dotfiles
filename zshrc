@@ -63,6 +63,7 @@ alias cat='bat -pp'
 alias vi='vim'
 alias mu='kinit G603289; neomutt'
 alias xo='xdg-open'
+alias sl='ls'
 
 export PATH=$HOME/.local/bin:$HOME/local/bin:/usr/local/bin:$HOME/Notes/tools:$HOME/.cargo/bin:/opt:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
