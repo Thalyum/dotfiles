@@ -408,6 +408,7 @@ you should place your code here."
                               (c-set-offset 'innamespace 0)
                               (c-set-offset 'inextern-lang 0)
                               (modify-syntax-entry ?_ "w")))
+  (add-to-list 'auto-mode-alist '("\\.dts$" . c-mode))
 
   (define-skeleton insert-c-header-guards
     "Skeleton for inclusion guards in C header file"
