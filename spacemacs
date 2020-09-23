@@ -371,6 +371,21 @@ you should place your code here."
   (evil-leader/set-key "g l h" 'git-link-homepage)
   (evil-leader/set-key "g b" 'magit-blame))
 
+(defun per/config-latex-syntax-highlight ()
+  (require 'org)
+  (require 'ox-latex)
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  (setq org-latex-listings 'minted)
+  (setq org-latex-pdf-process
+        '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+  (setq org-src-fontify-natively t)
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((R . t)
+     (latex . t))))
+
 (defun per/config-latex ()
   (add-hook 'LaTeX-mode-hook (lambda ()
                                (push
@@ -384,7 +399,8 @@ you should place your code here."
    ((string-equal system-type "gnu/linux")
     (progn (setq TeX-view-program-selection '((output-pdf "Okular"))))))
   (setq TeX-view-program-list
-        '(("Okular" "okular --unique %o#src:%n`pwd`/./%b"))))
+        '(("Okular" "okular --unique %o#src:%n`pwd`/./%b")))
+  (per/config-latex-syntax-highlight))
 
 (defun per/config-imenu ()
   (imenu-list-minor-mode)
