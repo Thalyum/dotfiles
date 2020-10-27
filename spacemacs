@@ -1,4 +1,9 @@
 ;; -*- mode: emacs-lisp -*-
+(setq
+ url-proxy-services ;; TODO use (getenv "proxy")
+ ;; must NOT contain "http://", "https://"
+ '(("http"     . "10.66.243.130:8080")
+   ("https"    . "10.66.243.130:8080")))
 (setq package-check-signature nil)
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
