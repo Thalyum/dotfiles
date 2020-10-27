@@ -367,6 +367,7 @@ you should place your code here."
   (jdoe/config-asciidoc)
   (per/config-latex)
   (per/config-kbd-shortcuts)
+  (per/config-python)
 )
 
 (defun per/config-kbd-shortcuts()
@@ -406,6 +407,13 @@ you should place your code here."
         '(("Okular" "okular --unique %o#src:%n`pwd`/./%b")))
   (per/config-latex-syntax-highlight))
 
+(defun per/config-python ()
+  (use-package lsp-python-ms
+    :ensure t
+    :init (setq lsp-python-ms-auto-install-server t)
+    :hook (python-mode . (lambda ()
+                           (require 'lsp-python-ms)
+                           (lsp))))  ; or lsp-deferred
   )
 
 (defun jdoe/config-c-c++ ()
