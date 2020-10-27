@@ -467,7 +467,15 @@ you should place your code here."
           ("CANCELED" . "grey")
           ("PAUSED" . "grey")))
   (when (version<= "9.2" (org-version))
-    (require 'org-tempo)))
+    (require 'org-tempo))
+  (org-babel-do-load-languages
+   '(org-babel-load-languages
+     (quote
+      ((R . t)
+       (latex . t)
+       (python . t)
+       (shell . t)))))
+  )
 
 (defun jdoe/config-asciidoc ()
   (add-to-list 'magic-mode-alist
@@ -518,10 +526,9 @@ you should place your code here."
    (quote
     ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "a2cde79e4cc8dc9a03e7d9a42fabf8928720d420034b66aecc5b665bbf05d4e9" default)))
  '(evil-want-Y-yank-to-eol nil)
- '(org-babel-load-languages (quote ((R . t) (latex . t) (shell . t))))
  '(package-selected-packages
    (quote
-    (imenu-list dts-mode ox-pandoc ht orgit org-projectile org-category-capture org-present solarized-theme pyenv-mode minitest hy-mode helm-gtags helm-c-yasnippet gruvbox-theme git-gutter-fringe flycheck-pos-tip evil-magit company-anaconda dash-functional magit git-commit with-editor flycheck yapfify yaml-mode xterm-color tao-theme tango-plus-theme smeargle ruby-test-mode pytest organic-green-theme org-mime org-download multi-term monokai-theme live-py-mode julia-mode jazz-theme inkpot-theme gotham-theme gnuplot git-messenger git-link git-gutter dracula-theme diff-hl color-theme-sanityinc-tomorrow auctex transient dash-docs haskell-mode company yasnippet csharp-mode log4e rust-mode inf-ruby js2-mode org-plus-contrib web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode markdown-toc mmm-mode markdown-mode gh-md ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async evil-unimpaired f s dash))))
+    (zenburn-theme scad-mode rspec-mode material-theme darkokai-theme cyberpunk-theme imenu-list dts-mode ox-pandoc ht orgit org-projectile org-category-capture org-present solarized-theme pyenv-mode minitest hy-mode helm-gtags helm-c-yasnippet gruvbox-theme git-gutter-fringe flycheck-pos-tip evil-magit company-anaconda dash-functional magit git-commit with-editor flycheck yapfify yaml-mode xterm-color tao-theme tango-plus-theme smeargle ruby-test-mode pytest organic-green-theme org-mime org-download multi-term monokai-theme live-py-mode julia-mode jazz-theme inkpot-theme gotham-theme gnuplot git-messenger git-link git-gutter dracula-theme diff-hl color-theme-sanityinc-tomorrow auctex transient dash-docs haskell-mode company yasnippet csharp-mode log4e rust-mode inf-ruby js2-mode org-plus-contrib web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode markdown-toc mmm-mode markdown-mode gh-md ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async evil-unimpaired f s dash))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
