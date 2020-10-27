@@ -60,7 +60,6 @@ values."
      haskell
      helm
      html
-     imenu-list
      javascript
      latex
      markdown
@@ -365,7 +364,6 @@ you should place your code here."
   (jdoe/config-autotools)
   (jdoe/config-org)
   (jdoe/config-asciidoc)
-  (per/config-imenu)
   (per/config-latex)
   (per/config-kbd-shortcuts)
 )
@@ -407,10 +405,6 @@ you should place your code here."
         '(("Okular" "okular --unique %o#src:%n`pwd`/./%b")))
   (per/config-latex-syntax-highlight))
 
-(defun per/config-imenu ()
-  (imenu-list-minor-mode)
-  (setq imenu-list-auto-resize t)
-  (evil-leader/set-key "\"" 'imenu-list-smart-toggle)
   )
 
 (defun jdoe/config-c-c++ ()
