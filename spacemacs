@@ -63,7 +63,8 @@ values."
      javascript
      latex
      markdown
-     org
+     (org :variables
+          org-want-todo-bindings t)
      pandoc
      python
      ruby
