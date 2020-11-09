@@ -93,4 +93,4 @@ export SPACESHIP_EXIT_CODE_SHOW=true
 
 zstyle ":completion:*:descriptions" format "%B%d%b"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh && source ~/.fzfrc
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh && source ~/.fzfrc && source ~/.git-fzf.sh
