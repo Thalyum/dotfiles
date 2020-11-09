@@ -367,15 +367,21 @@ you should place your code here."
   (jdoe/config-org)
   (jdoe/config-asciidoc)
   (per/config-latex)
-  (per/config-kbd-shortcuts)
   (per/config-python)
+  (per/config-kbd-shortcuts)
 )
 
-(defun per/config-kbd-shortcuts()
-  (evil-leader/set-key "x y" 'copy-to-clipboard)
-  (evil-leader/set-key "x p" 'paste-from-clipboard)
-  (evil-leader/set-key "g l h" 'git-link-homepage)
-  (evil-leader/set-key "g b" 'magit-blame))
+(defun per/config-kbd-shortcuts ()
+  ;; leader-key "o" is reserved for user customization
+  ;; copy-pasting
+  (spacemacs/set-leader-keys "o y" 'copy-to-clipboard)
+  (spacemacs/set-leader-keys "o p" 'paste-from-clipboard)
+  ;; org-mode evaluate src block
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "o x" 'org-babel-execute-src-block)
+  (spacemacs/set-leader-keys-for-minor-mode 'org-mode "o x" 'org-babel-execute-src-block)
+  ;; Git
+  ;; (evil-leader/set-key "g b" 'magit-blame)
+  (evil-leader/set-key "g l h" 'git-link-homepage))
 
 (defun per/config-latex-syntax-highlight ()
   (require 'org)
@@ -386,11 +392,7 @@ you should place your code here."
         '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-  (setq org-src-fontify-natively t)
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((R . t)
-     (latex . t))))
+  (setq org-src-fontify-natively t))
 
 (defun per/config-latex ()
   (add-hook 'LaTeX-mode-hook (lambda ()
@@ -476,15 +478,7 @@ you should place your code here."
           ("CANCELED" . "grey")
           ("PAUSED" . "grey")))
   (when (version<= "9.2" (org-version))
-    (require 'org-tempo))
-  (org-babel-do-load-languages
-   '(org-babel-load-languages
-     (quote
-      ((R . t)
-       (latex . t)
-       (python . t)
-       (shell . t)))))
-  )
+    (require 'org-tempo)))
 
 (defun jdoe/config-asciidoc ()
   (add-to-list 'magic-mode-alist
@@ -500,11 +494,10 @@ you should place your code here."
         )
     (if (region-active-p)
         (progn
-          (shell-command-on-region (region-beginning) (region-end) "xsel     -i -b")
+          (shell-command-on-region (region-beginning) (region-end) "xsel -i -b")
           (message "Yanked region to clipboard!")
           (deactivate-mark))
-      (message "No region active; can't yank to clipboard!")))
-  )
+      (message "No region active; can't yank to clipboard!"))))
 
 (defun paste-from-clipboard ()
   "Pastes from x-clipboard."
@@ -512,35 +505,37 @@ you should place your code here."
   (if (display-graphic-p)
       (progn
         (clipboard-yank)
-        (message "graphics active")
-        )
-    (insert (shell-command-to-string "xsel -o -b"))
-    )
-  )
-;; (defadvice org-mode-flyspell-verify
-;;   (after my-org-mode-flyspell-verify activate)
-;;   "Don't spell check src blocks."
-;;   (setq ad-return-value
-;;         (and ad-return-value
-;;              (not (org-in-src-block-p))
-;;              (not (member 'org-block-begin-line (text-properties-at (point))))
-;;              (not (member 'org-block-end-line (text-properties-at (point)))))))
+        (message "graphics active"))
+    (insert (shell-command-to-string "xsel -o -b"))))
 
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   (quote
-    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "a2cde79e4cc8dc9a03e7d9a42fabf8928720d420034b66aecc5b665bbf05d4e9" default)))
+   '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "a2cde79e4cc8dc9a03e7d9a42fabf8928720d420034b66aecc5b665bbf05d4e9" default))
  '(evil-want-Y-yank-to-eol nil)
+ '(org-babel-load-languages
+   '((shell . t)
+     (ruby . t)
+     (python . t)
+     (latex . t)
+     (js . t)
+     (dot . t)
+     (C . t)
+     (emacs-lisp . t)))
  '(package-selected-packages
-   (quote
-    (zenburn-theme scad-mode rspec-mode material-theme darkokai-theme cyberpunk-theme imenu-list dts-mode ox-pandoc ht orgit org-projectile org-category-capture org-present solarized-theme pyenv-mode minitest hy-mode helm-gtags helm-c-yasnippet gruvbox-theme git-gutter-fringe flycheck-pos-tip evil-magit company-anaconda dash-functional magit git-commit with-editor flycheck yapfify yaml-mode xterm-color tao-theme tango-plus-theme smeargle ruby-test-mode pytest organic-green-theme org-mime org-download multi-term monokai-theme live-py-mode julia-mode jazz-theme inkpot-theme gotham-theme gnuplot git-messenger git-link git-gutter dracula-theme diff-hl color-theme-sanityinc-tomorrow auctex transient dash-docs haskell-mode company yasnippet csharp-mode log4e rust-mode inf-ruby js2-mode org-plus-contrib web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode markdown-toc mmm-mode markdown-mode gh-md ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async evil-unimpaired f s dash))))
+   '(zenburn-theme scad-mode rspec-mode material-theme darkokai-theme cyberpunk-theme imenu-list dts-mode ox-pandoc ht orgit org-projectile org-category-capture org-present solarized-theme pyenv-mode minitest hy-mode helm-gtags helm-c-yasnippet gruvbox-theme git-gutter-fringe flycheck-pos-tip evil-magit company-anaconda dash-functional magit git-commit with-editor flycheck yapfify yaml-mode xterm-color tao-theme tango-plus-theme smeargle ruby-test-mode pytest organic-green-theme org-mime org-download multi-term monokai-theme live-py-mode julia-mode jazz-theme inkpot-theme gotham-theme gnuplot git-messenger git-link git-gutter dracula-theme diff-hl color-theme-sanityinc-tomorrow auctex transient dash-docs haskell-mode company yasnippet csharp-mode log4e rust-mode inf-ruby js2-mode org-plus-contrib web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode markdown-toc mmm-mode markdown-mode gh-md ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async evil-unimpaired f s dash)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:background nil)))))
+)
