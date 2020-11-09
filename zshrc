@@ -55,8 +55,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 eval $(thefuck --alias)
-alias emacs-nox='TERM="xterm" emacs -nw'
-alias ec='emacsclient -n'
+alias ec='/usr/local/bin/emacsclient -n'
+alias em='/usr/local/bin/emacsclient -t -c'
 alias co='codium -g'
 alias nco='codium -n -g'
 alias cat='bat -pp'
