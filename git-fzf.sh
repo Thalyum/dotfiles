@@ -20,7 +20,7 @@ gli() {
     git log
     --graph --color=always
     --abbrev=7
-    --format='%C(auto)%h %an %C(green)%s %C(yellow)%cr'
+    --format='%C(auto)%h %an %d %C(cyan bold)%s %C(yellow)%cr'
     $@
   )
 
