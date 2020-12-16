@@ -436,6 +436,8 @@ you should place your code here."
                               (c-set-offset 'inextern-lang 0)
                               (modify-syntax-entry ?_ "w")))
   (add-to-list 'auto-mode-alist '("\\.dtsi?$" . c-mode))
+  (add-to-list 'auto-mode-alist '("\\.its$" . c-mode))
+  (add-to-list 'auto-mode-alist '("\\.its.in$" . c-mode))
 
   (define-skeleton insert-c-header-guards
     "Skeleton for inclusion guards in C header file"
