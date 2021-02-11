@@ -359,6 +359,7 @@ you should place your code here."
   (setq compilation-scroll-output t)
   (setq x-select-enable-clipboard t)
   (setq python-shell-interpreter "python3")
+  (add-to-list 'auto-mode-alist '("\\defconfig$" . conf-mode))
   (global-auto-revert-mode -1)
   (jdoe/config-c-c++)
   (jdoe/config-makefile)
