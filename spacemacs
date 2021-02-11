@@ -381,7 +381,10 @@ you should place your code here."
   (spacemacs/set-leader-keys-for-minor-mode 'org-mode "o x" 'org-babel-execute-src-block)
   ;; Git
   ;; (evil-leader/set-key "g b" 'magit-blame)
-  (evil-leader/set-key "g l h" 'git-link-homepage))
+  (evil-leader/set-key "g l h" 'git-link-homepage)
+  ;; sh-mode
+  (spacemacs/set-leader-keys-for-major-mode 'sh-mode "C-e" 'sh-while)
+  )
 
 (defun per/config-latex-syntax-highlight ()
   (require 'org)
