@@ -64,6 +64,7 @@ alias vi='vim'
 alias mu='kinit G603289; neomutt'
 alias xo='xdg-open'
 alias sl='ls'
+alias fd5='fd -exec md5sum {} \;'
 
 export PATH=$HOME/.local/bin:$HOME/local/bin:/usr/local/bin:$HOME/Notes/tools:$HOME/.cargo/bin:/opt:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
