@@ -47,7 +47,7 @@ DISABLE_CORRECTION="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(alias gem git grep mercurial pip repo taskwarrior tmuxinator colored-man-pages)
+plugins=(gem git ripgrep mercurial pip repo taskwarrior tmuxinator colored-man-pages)
 
 source $ZSH/oh-my-zsh.sh
 
