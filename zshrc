@@ -66,7 +66,7 @@ alias xo='xdg-open'
 alias sl='ls'
 alias fd5='fd -exec md5sum {} \;'
 
-export PATH=$HOME/.local/bin:$HOME/local/bin:/usr/local/bin:$HOME/Notes/tools:$HOME/.cargo/bin:/opt:$PATH
+export PATH=$HOME/.local/bin:$HOME/.local/scos-manuf-tools/bin:/usr/local/bin:$HOME/Notes/tools:$HOME/.cargo/bin:/opt:/sbin:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # # Preferred editor for local and remote sessions
@@ -78,7 +78,6 @@ export PATH=$HOME/.local/bin:$HOME/local/bin:/usr/local/bin:$HOME/Notes/tools:$H
 EDITOR=`which vim`
 
 # Configure terminal
-export PATH=$HOME/.local/bin:$HOME/local/bin:/usr/local/bin:/sbin:$PATH
 export DEBFULLNAME="Paul-Erwan RIO"
 export DEBEMAIL=paul-erwan.rio@sagemcom.com
 export TERM=xterm-256color
