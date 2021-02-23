@@ -369,6 +369,7 @@ you should place your code here."
   (jdoe/config-asciidoc)
   (per/config-latex)
   (per/config-python)
+  (per/config-git-gutter)
   (per/config-kbd-shortcuts)
 )
 
@@ -421,6 +422,10 @@ you should place your code here."
     :hook (python-mode . (lambda ()
                            (require 'lsp-python-ms)
                            (lsp))))  ; or lsp-deferred
+  )
+
+(defun per/config-git-gutter ()
+  (setq git-gutter+-modified-sign "*")
   )
 
 (defun jdoe/config-c-c++ ()
