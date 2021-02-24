@@ -65,6 +65,7 @@ alias mu='kinit G603289; neomutt'
 alias xo='xdg-open'
 alias sl='ls'
 alias fd5='fd -exec md5sum {} \;'
+alias lgrep='ls | grep '
 
 export PATH=$HOME/.local/bin:$HOME/.local/scos-manuf-tools/bin:/usr/local/bin:$HOME/Notes/tools:$HOME/.cargo/bin:/opt:/sbin:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -94,3 +95,6 @@ export SPACESHIP_EXIT_CODE_SHOW=true
 zstyle ":completion:*:descriptions" format "%B%d%b"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh && source ~/.fzfrc && source ~/.git-fzf.sh
+
+# import scos-devel FZF easyness
+[ -f ~/Projects/scos-devel/extra/fzf-scos-devel.zsh ] && source ~/Projects/scos-devel/extra/fzf-scos-devel.zsh
