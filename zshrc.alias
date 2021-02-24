@@ -1,0 +1,10 @@
+eval $(thefuck --alias)
+alias ec='emacsclient -n'
+alias em='emacsclient -t -c'
+alias co='codium -g'
+alias nco='codium -n -g'
+alias cat='bat -pp'
+alias vi='vim'
+alias mu='kinit G603289; neomutt'
+alias xo='xdg-open'
+alias sl='ls'
