@@ -559,6 +559,7 @@ before packages are loaded."
   (setq compilation-scroll-output t)
   (setq x-select-enable-clipboard t)
   (setq python-shell-interpreter "python3")
+  (add-to-list 'auto-mode-alist '("\\defconfig$" . conf-mode))
   (global-auto-revert-mode -1)
   (jdoe/config-c-c++)
   (jdoe/config-makefile)
@@ -581,7 +582,10 @@ before packages are loaded."
   (spacemacs/set-leader-keys-for-minor-mode 'org-mode "o x" 'org-babel-execute-src-block)
   ;; Git
   ;; (evil-leader/set-key "g b" 'magit-blame)
-  (evil-leader/set-key "g l h" 'git-link-homepage))
+  (evil-leader/set-key "g l h" 'git-link-homepage)
+  ;; sh-mode
+  (spacemacs/set-leader-keys-for-major-mode 'sh-mode "C-e" 'sh-while)
+  )
 
 (defun per/config-latex-syntax-highlight ()
   (require 'org)
@@ -636,6 +640,8 @@ before packages are loaded."
                               (c-set-offset 'inextern-lang 0)
                               (modify-syntax-entry ?_ "w")))
   (add-to-list 'auto-mode-alist '("\\.dtsi?$" . c-mode))
+  (add-to-list 'auto-mode-alist '("\\.its$" . c-mode))
+  (add-to-list 'auto-mode-alist '("\\.its.in$" . c-mode))
 
   (define-skeleton insert-c-header-guards
     "Skeleton for inclusion guards in C header file"
