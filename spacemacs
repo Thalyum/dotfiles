@@ -53,7 +53,8 @@ This function should only modify configuration layer settings."
      csharp
      csv
      (git :variables
-          git-gutter-use-fringe t)
+          git-gutter-use-fringe t
+          git-gutter+-modified-sign "*")
      dash
      emacs-lisp
      extra-langs
@@ -73,6 +74,8 @@ This function should only modify configuration layer settings."
      (rust :variables
            rust-format-on-save t)
      shell
+     (spell-checking :variables
+                     enable-flyspell-auto-completion t)
      syntax-checking
      systemd
      version-control
@@ -539,8 +542,6 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (setq backup-directory-alist '(("" . "~/.emacs.d/backups")))
-  (setq-default ispell-program-name "aspell")
-  (setq ispell-dictionary "en_US")
   (setq browse-url-browser-function 'browse-url-firefox)
   (epa-file-enable)
   (add-hook 'prog-mode-hook 'whitespace-mode)
@@ -551,11 +552,8 @@ before packages are loaded."
                      (setq show-trailing-whitespace nil))))
   (dolist (hook '(text-mode-hook rst-mode-hook))
     (add-hook hook 'turn-on-auto-fill))
-  (setq flycheck-check-syntax-automatically '(mode-enabled save))
-  (add-hook 'rst-mode-hook 'flycheck-mode)
-  (add-hook 'markdown-mode-hook 'turn-on-flyspell)
   (global-git-commit-mode)
-  (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
+  (per/config-spell-syntax-check)
   (setq compilation-scroll-output t)
   (setq x-select-enable-clipboard t)
   (setq python-shell-interpreter "python3")
@@ -571,6 +569,15 @@ before packages are loaded."
   (per/config-python)
   (per/config-kbd-shortcuts)
 )
+
+(defun per/config-spell-syntax-check ()
+  (setq-default ispell-program-name "aspell")
+  (setq ispell-dictionary "en_US")
+  (setq flycheck-check-syntax-automatically '(mode-enabled save))
+  (add-hook 'rst-mode-hook 'flycheck-mode)
+  (add-hook 'markdown-mode-hook 'turn-on-flyspell)
+  (add-hook 'git-commit-mode-hook 'turn-on-flyspell)
+  )
 
 (defun per/config-kbd-shortcuts ()
   ;; leader-key "o" is reserved for user customization
