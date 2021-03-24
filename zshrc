@@ -20,5 +20,8 @@ antigen theme denysdovhan/spaceship-prompt
 # Tell Antigen that you're done.
 antigen apply
 
+# Environment
+export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/library
+
 [ -f ~/.fzf.zsh ] && source ~/.zshrc.alias
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
