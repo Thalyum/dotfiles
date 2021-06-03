@@ -66,6 +66,7 @@ alias xo='xdg-open'
 alias sl='ls'
 alias fd5='fd -exec md5sum {} \;'
 alias lgrep='ls | grep '
+alias emc='em ~/Notes/Compendium.org'
 
 export PATH=$HOME/.local/bin:$HOME/.local/scos-manuf-tools/bin:/usr/local/bin:$HOME/Notes/tools:$HOME/.cargo/bin:/opt:/sbin:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
