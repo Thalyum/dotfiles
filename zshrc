@@ -56,7 +56,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 eval $(thefuck --alias)
 alias ec='/usr/local/bin/emacsclient -n'
-alias em='/usr/local/bin/emacsclient -t -c'
+alias eml='/usr/local/bin/emacsclient -t -c'
 alias co='codium -g'
 alias nco='codium -n -g'
 alias cat='bat -pp'
@@ -66,7 +66,7 @@ alias xo='xdg-open'
 alias sl='ls'
 alias fd5='fd -exec md5sum {} \;'
 alias lgrep='ls | grep '
-alias emc='em ~/Notes/Compendium.org'
+alias emc='eml ~/Notes/Compendium.org'
 
 export PATH=$HOME/.local/bin:$HOME/.local/scos-manuf-tools/bin:/usr/local/bin:$HOME/Notes/tools:$HOME/.cargo/bin:/opt:/sbin:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
