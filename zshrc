@@ -67,6 +67,7 @@ alias sl='ls'
 alias fd5='fd -exec md5sum {} \;'
 alias lgrep='ls | grep '
 alias emc='eml ~/Notes/Compendium.org'
+alias gfl='git fetch --prune --jobs=10 --multiple origin myfork'
 
 export PATH=$HOME/.local/bin:$HOME/.local/scos-manuf-tools/bin:/usr/local/bin:$HOME/Notes/tools:$HOME/.cargo/bin:/opt:/sbin:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
